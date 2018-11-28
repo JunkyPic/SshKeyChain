@@ -13,6 +13,8 @@ import java.util.TreeMap;
 
 public class DefaultView implements IView{
     private JFrame mainFrame;
+    private JPanel bodyPanelPart;
+    private JScrollPane bodyPanelScrollable;
 
     public DefaultView() {
         mainFrame = new JFrame("SSH KEYCHAIN");
@@ -26,10 +28,6 @@ public class DefaultView implements IView{
         });
     }
 
-    public JFrame getMainFrame() {
-        return mainFrame;
-    }
-
     @SuppressWarnings("Duplicates")
     public void buildHeader(Button button, TextField textField) {
         JPanel headerPanel = new JPanel();
@@ -39,7 +37,7 @@ public class DefaultView implements IView{
         JLabel addressLabel = new JLabel("Address");
 
         JButton addButton = new JButton("Add");
-        addButton.setName(Button.BUTTON_ADD_PREFIX + "header_button");
+        addButton.setName(Button.BUTTON_ADD);
 
         JTextField aliasTextField = new JTextField();
         aliasTextField.setColumns(10);
@@ -50,7 +48,7 @@ public class DefaultView implements IView{
         addressTextField.setName(TextField.TEXTFIELD_ADDRESS_PREFIX + "header_address");
 
         // Add buttons and textfields to models
-        button.put(Button.BUTTON_ADD_PREFIX + "header_button", addButton);
+        button.put(Button.BUTTON_ADD, addButton);
         textField.put(TextField.TEXTFIELD_ALIAS_PREFIX + "header_textfield", aliasTextField);
         textField.put(TextField.TEXTFIELD_ADDRESS_PREFIX + "header_address", addressTextField);
 
@@ -71,65 +69,85 @@ public class DefaultView implements IView{
         // Dynamically create whatever elements are in there
         // Only the alias and the value are present
         TreeMap<String, String> keychain = keyChain.getKeychain();
+        JScrollPane bodyPanelScrollable = new JScrollPane();
+        this.bodyPanelScrollable = bodyPanelScrollable;
 
-        // TODO This could probably be extracted to a method
+        this.bodyPanelScrollable.setLayout(new ScrollPaneLayout());
+        mainFrame.add(this.bodyPanelScrollable);
+        JPanel bodyPanelPart = new JPanel();
+        bodyPanelPart.setLayout(new GridLayout(keychain.size(), 1));
+        this.bodyPanelPart = bodyPanelPart;
+
         if(!keychain.isEmpty()) {
-            JScrollPane bodyPanelScrollable = new JScrollPane();
-            bodyPanelScrollable.setLayout(new ScrollPaneLayout());
-            mainFrame.add(bodyPanelScrollable);
-            JPanel bodyPanelPart = new JPanel();
-            bodyPanelPart.setLayout(new GridLayout(keychain.size(), 1));
-
-            for (Map.Entry<String, String> entry : keychain.entrySet()) {
-                JPanel part = new JPanel();
-                part.setLayout(new FlowLayout());
-
-                JLabel aliasLabel = new JLabel("Alias");
-                JLabel addressLabel = new JLabel("Address");
-
-                JTextField aliasTextField = new JTextField();
-                aliasTextField.setName("alias_" + entry.getKey());
-                aliasTextField.setEditable(false);
-                aliasTextField.setText(entry.getKey());
-                aliasTextField.setColumns(10);
-
-                JTextField addressTextField = new JTextField();
-                addressTextField.setName("address_" + entry.getKey());
-                addressTextField.setEditable(false);
-                addressTextField.setText(entry.getValue());
-                addressTextField.setColumns(20);
-
-                JButton editButton = new JButton("Edit");
-                editButton.setName(Button.BUTTON_EDIT_PREFIX + entry.getKey());
-                button.put(Button.BUTTON_EDIT_PREFIX + entry.getKey(), editButton);
-
-                JButton deleteButton = new JButton("Delete");
-                editButton.setName(Button.BUTTON_DELETE_PREFIX + entry.getKey());
-                button.put(Button.BUTTON_DELETE_PREFIX + entry.getKey(), deleteButton);
-
-                JButton connectButton = new JButton("Connect");
-                editButton.setName(Button.BUTTON_CONNECT_PREFIX + entry.getKey());
-                button.put(Button.BUTTON_CONNECT_PREFIX + entry.getKey(), connectButton);
-
-                part.add(aliasLabel);
-                part.add(aliasTextField);
-
-                part.add(addressLabel);
-                part.add(addressTextField);
-
-                part.add(editButton);
-                part.add(deleteButton);
-                part.add(connectButton);
-
-                part.setVisible(true);
-
-                bodyPanelPart.add(part);
-            }
-
-            bodyPanelScrollable.setViewportView(bodyPanelPart);
-            bodyPanelScrollable.setVisible(true);
-            mainFrame.setVisible(true);
+            this.bodyPanelScrollable.setVisible(true);
+            redraw(button, textField, keyChain);
+        } else {
+            this.bodyPanelScrollable.setVisible(false);
         }
+
+        this.bodyPanelScrollable.setViewportView(bodyPanelPart);
+        mainFrame.setVisible(true);
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void redraw(Button button, TextField textField, KeyChain keyChain) {
+        bodyPanelPart.removeAll();
+        bodyPanelPart.revalidate();
+        bodyPanelPart.repaint();
+
+        bodyPanelPart.setLayout(new GridLayout(keyChain.getKeychain().size(), 1));
+
+        for (Map.Entry<String, String> entry : keyChain.getKeychain().entrySet()) {
+            JPanel part = new JPanel();
+            part.setLayout(new FlowLayout());
+
+            JLabel aliasLabel = new JLabel("Alias");
+            JLabel addressLabel = new JLabel("Address");
+
+            JTextField aliasTextField = new JTextField();
+            aliasTextField.setName("alias_" + entry.getKey());
+            aliasTextField.setEditable(false);
+            aliasTextField.setText(entry.getKey());
+            aliasTextField.setColumns(10);
+            textField.put(TextField.TEXTFIELD_ALIAS_PREFIX + entry.getKey(), aliasTextField);
+
+            JTextField addressTextField = new JTextField();
+            addressTextField.setName("address_" + entry.getKey());
+            addressTextField.setEditable(false);
+            addressTextField.setText(entry.getValue());
+            addressTextField.setColumns(20);
+            textField.put(TextField.TEXTFIELD_ADDRESS_PREFIX + entry.getKey(), addressTextField);
+
+            JButton editButton = new JButton("Edit");
+            editButton.setName(Button.BUTTON_EDIT_PREFIX + entry.getKey());
+            button.put(Button.BUTTON_EDIT_PREFIX + entry.getKey(), editButton);
+
+            JButton deleteButton = new JButton("Delete");
+            deleteButton.setName(Button.BUTTON_DELETE_PREFIX + entry.getKey());
+            button.put(Button.BUTTON_DELETE_PREFIX + entry.getKey(), deleteButton);
+
+            JButton connectButton = new JButton("Connect");
+            connectButton.setName(Button.BUTTON_CONNECT_PREFIX + entry.getKey());
+            button.put(Button.BUTTON_CONNECT_PREFIX + entry.getKey(), connectButton);
+
+            part.add(aliasLabel);
+            part.add(aliasTextField);
+
+            part.add(addressLabel);
+            part.add(addressTextField);
+
+            part.add(editButton);
+            part.add(deleteButton);
+            part.add(connectButton);
+
+            part.setVisible(true);
+
+            bodyPanelPart.add(part);
+        }
+
+        bodyPanelScrollable.setVisible(true);
+        bodyPanelPart.setVisible(true);
+        mainFrame.setVisible(true);
     }
 
     public void buildFooter(Button button, TextField textField, KeyChain keyChain) {
@@ -139,13 +157,13 @@ public class DefaultView implements IView{
 
             JTextField searchTextField = new JTextField();
             searchTextField.setColumns(30);
-            searchTextField.setName(TextField.TEXTFIELD_SEARCH_PREFIX + "textfield");
+            searchTextField.setName(TextField.TEXTFIELD_SEARCH_PREFIX);
 
             JButton searchButton = new JButton("Search");
-            searchButton.setName(Button.BUTTON_SEARCH_PREFIX + "button");
-            button.put(Button.BUTTON_SEARCH_PREFIX + "button", searchButton);
+            searchButton.setName(Button.BUTTON_SEARCH + "button");
+            button.put(Button.BUTTON_SEARCH + "button", searchButton);
 
-            textField.put(TextField.TEXTFIELD_SEARCH_PREFIX + "textfield", searchTextField);
+            textField.put(TextField.TEXTFIELD_SEARCH_PREFIX, searchTextField);
 
             footerPanel.add(searchTextField);
             footerPanel.add(searchButton);
@@ -155,8 +173,23 @@ public class DefaultView implements IView{
         }
     }
 
-    public void revalidate() {
-        mainFrame.revalidate();
-        mainFrame.repaint();
+    public void displayWarning(String warning) {
+        JOptionPane.showMessageDialog(null, warning);
+    }
+
+    public void toggleTextFieldEditability(JTextField button) {
+        if(!button.isEditable()) {
+            button.setEditable(true);
+        } else {
+            button.setEditable(false);
+        }
+    }
+
+    public void toggleButtonLabel(JButton button){
+        if(button.getText().equals("Edit")) {
+            button.setText("Save");
+        } else {
+            button.setText("Edit");
+        }
     }
 }

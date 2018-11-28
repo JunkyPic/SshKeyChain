@@ -9,7 +9,7 @@ public class FileIO{
 
         if (f.exists() && !f.isDirectory()) {
             try {
-                fw = new FileWriter(fileName, true);
+                fw = new FileWriter(fileName);
                 fw.write(toWrite + System.lineSeparator());
                 fw.close();
             } catch (IOException ioe) {
@@ -19,7 +19,7 @@ public class FileIO{
             try {
                 f.createNewFile();
                 try {
-                    fw = new FileWriter(fileName, true);
+                    fw = new FileWriter(fileName);
                     fw.write(toWrite + System.lineSeparator());
                     fw.close();
                 } catch (IOException ioe) {

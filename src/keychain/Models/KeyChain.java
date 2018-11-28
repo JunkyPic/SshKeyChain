@@ -3,7 +3,7 @@ package keychain.Models;
 import java.util.TreeMap;
 
 public class KeyChain{
-    private TreeMap<String, String> keychain;
+    private TreeMap<String, String> keychain = new TreeMap<>();
 
     public KeyChain(TreeMap<String, String> keychain) {
         this.keychain = keychain;
@@ -19,5 +19,9 @@ public class KeyChain{
 
     public void put(String key, String value) {
         keychain.put(key, value);
+    }
+
+    public void remove(String key) {
+        keychain.remove(key);
     }
 }

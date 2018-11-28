@@ -35,6 +35,7 @@ public class Kernel {
             return new KeyChain(KeyChainFileIO.toHashMap(config.getConfig().get("KEYCHAIN_FILE")));
         } catch (IOException ioEx) {
             JOptionPane.showMessageDialog(null, ioEx.getMessage());
+            System.exit(0);
         }
 
         return new KeyChain(new TreeMap<>());

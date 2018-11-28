@@ -6,7 +6,7 @@ import keychain.Models.KeyChain;
 import keychain.Models.TextField;
 import keychain.Views.DefaultView;
 
-public class AbstractController {
+abstract public class AbstractController {
     protected Config config;
     protected KeyChain keyChain;
     protected DefaultView view;
@@ -43,4 +43,27 @@ public class AbstractController {
         this.keyChain = keyChain;
     }
 
+    public DefaultView getView() {
+        return view;
+    }
+
+    public void setView(DefaultView view) {
+        this.view = view;
+    }
+
+    public Button getButtonModel() {
+        return buttonModel;
+    }
+
+    public void setButtonModel(Button buttonModel) {
+        this.buttonModel = buttonModel;
+    }
+
+    public TextField getTextFieldModel() {
+        return textFieldModel;
+    }
+
+    public void setTextFieldModel(TextField textFieldModel) {
+        this.textFieldModel = textFieldModel;
+    }
 }
