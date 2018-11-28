@@ -132,25 +132,27 @@ public class DefaultView implements IView{
         }
     }
 
-    public void buildFooter(Button button, TextField textField) {
-        JPanel footerPanel = new JPanel();
-        footerPanel.setLayout(new FlowLayout());
+    public void buildFooter(Button button, TextField textField, KeyChain keyChain) {
+        if(!keyChain.getKeychain().isEmpty()) {
+            JPanel footerPanel = new JPanel();
+            footerPanel.setLayout(new FlowLayout());
 
-        JTextField searchTextField = new JTextField();
-        searchTextField.setColumns(30);
-        searchTextField.setName(TextField.TEXTFIELD_SEARCH_PREFIX + "textfield");
+            JTextField searchTextField = new JTextField();
+            searchTextField.setColumns(30);
+            searchTextField.setName(TextField.TEXTFIELD_SEARCH_PREFIX + "textfield");
 
-        JButton searchButton = new JButton("Search");
-        searchButton.setName(Button.BUTTON_SEARCH_PREFIX + "button");
-        button.put(Button.BUTTON_SEARCH_PREFIX + "button", searchButton);
+            JButton searchButton = new JButton("Search");
+            searchButton.setName(Button.BUTTON_SEARCH_PREFIX + "button");
+            button.put(Button.BUTTON_SEARCH_PREFIX + "button", searchButton);
 
-        textField.put(TextField.TEXTFIELD_SEARCH_PREFIX + "textfield", searchTextField);
+            textField.put(TextField.TEXTFIELD_SEARCH_PREFIX + "textfield", searchTextField);
 
-        footerPanel.add(searchTextField);
-        footerPanel.add(searchButton);
+            footerPanel.add(searchTextField);
+            footerPanel.add(searchButton);
 
-        mainFrame.add(footerPanel);
-        mainFrame.setVisible(true);
+            mainFrame.add(footerPanel);
+            mainFrame.setVisible(true);
+        }
     }
 
     public void revalidate() {
