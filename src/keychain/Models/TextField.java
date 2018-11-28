@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.util.HashMap;
 
 public class TextField implements IModel {
+    public static final String TEXTFIELD_ALIAS_PREFIX = "alias_";
+    public static final String TEXTFIELD_ADDRESS_PREFIX = "address_";
+    public static final String TEXTFIELD_SEARCH_PREFIX = "search_";
+
     private HashMap<String, JTextField> textFields = new HashMap<>();
 
     public void put(String alias, JTextField component) {

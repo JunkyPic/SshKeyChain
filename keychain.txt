@@ -1,1 +1,16 @@
-alias->ssh user@address
+alias1->ssh user@address
+alias2->ssh user@address
+alias3->ssh user@address
+alias4->ssh user@address
+alias5->ssh user@address
+alias6->ssh user@address
+alias7->ssh user@address
+alias8->ssh user@address
+alias9->ssh user@address
+alias10->ssh user@address
+alias11->ssh user@address
+alias12->ssh user@address
+alias13->ssh user@address
+alias14->ssh user@address
+alias15->ssh user@address
+alias16->ssh user@address

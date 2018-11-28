@@ -21,5 +21,6 @@ public class DefaultController extends AbstractController{
     public void run() {
         view.buildHeader(buttonModel, textFieldModel);
         view.buildBody(buttonModel, textFieldModel, keyChain);
+        view.buildFooter(buttonModel, textFieldModel);
     }
 }
