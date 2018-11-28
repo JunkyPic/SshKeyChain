@@ -1,27 +1,49 @@
 package keychain;
 
 import keychain.Config.Config;
-import keychain.Config.Exceptions.InvalidConfigException;
 import keychain.Config.Validator;
 import keychain.Controllers.DefaultController;
+import keychain.FileIO.KeyChainFileIO;
+import keychain.Models.Button;
+import keychain.Models.KeyChain;
+import keychain.Models.TextField;
 import keychain.Views.DefaultView;
+import keychain.Config.Exceptions.InvalidConfigException;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.TreeMap;
 
 public class Kernel {
     public void run() {
         Config config = buildConfig();
+        KeyChain keyChain = buildKeychain(config);
 
-        DefaultController defaultController = new DefaultController(config);
-        defaultController.setMainFrame((new DefaultView()).create());
+        DefaultController defaultController = new DefaultController(
+                config,
+                keyChain,
+                new DefaultView(),
+                new Button(),
+                new TextField()
+        );
 
+        defaultController.run();
+    }
+
+    private KeyChain buildKeychain(Config config) {
+        try {
+            return new KeyChain(KeyChainFileIO.toHashMap(config.getConfig().get("KEYCHAIN_FILE")));
+        } catch (IOException ioEx) {
+            JOptionPane.showMessageDialog(null, ioEx.getMessage());
+        }
+
+        return new KeyChain(new TreeMap<>());
     }
 
     private Config buildConfig() {
         Config config = new Config();
 
-        try{
+        try {
             config.buildConfig();
             Validator configValidator = new Validator();
             configValidator.validate(config);

@@ -1,2 +1,1 @@
-DELIMITER=->
 KEYCHAIN_FILE=keychain.txt

@@ -1,22 +1,25 @@
 package keychain.Controllers;
 
 import keychain.Config.Config;
-
-import javax.swing.*;
+import keychain.Models.Button;
+import keychain.Models.KeyChain;
+import keychain.Models.TextField;
+import keychain.Views.DefaultView;
 
 public class DefaultController extends AbstractController{
-    private JFrame mainFrame;
 
-    public JFrame getMainFrame() {
-        return mainFrame;
+    public DefaultController(
+            Config config,
+            KeyChain keyChain,
+            DefaultView view,
+            Button button,
+            TextField textField
+    ) {
+        super(config, keyChain, view, button, textField);
     }
 
-    public void setMainFrame(JFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public void run() {
+        view.buildHeader(buttonModel, textFieldModel);
+        view.buildBody(buttonModel, textFieldModel, keyChain);
     }
-
-    public DefaultController(Config config) {
-        super(config);
-    }
-
 }

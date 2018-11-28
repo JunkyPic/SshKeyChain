@@ -10,7 +10,6 @@ public class Validator {
      * Must have values in the config
      */
     private ArrayList<String> arrayList = new ArrayList<String>() {{
-        add("DELIMITER");
         add("KEYCHAIN_FILE");
     }};
 
