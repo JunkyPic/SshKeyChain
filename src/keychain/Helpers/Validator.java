@@ -2,32 +2,28 @@ package keychain.Helpers;
 
 import keychain.FileIO.KeyChainFileIO;
 import keychain.Models.KeyChain;
-import keychain.Views.Errors.Errors;
 
 public class Validator {
-    public final static int VALIDATOR_STATUS_ALIAS_EXISTS = 0;
-    public final static int VALIDATOR_STATUS_ALIAS_EMPTY = 1;
-    public final static int VALIDATOR_STATUS_ALIAS_INVALID_CHARACTER = 2;
-    public final static int VALIDATOR_STATUS_ADDRESS_INVALID = 3;
+    public final static String VALID = "VALID";
 
-    public static int isAliasValid(String alias, KeyChain keyChain) {
+    public static String isAliasValid(String alias, KeyChain keyChain) {
         if(null == alias) {
-            return Errors.UNKNOWN_ERROR;
+            return "An unknown error occurred.";
         }
 
        if(null != keyChain.get(alias) ) {
-           return VALIDATOR_STATUS_ALIAS_EXISTS;
+           return "That alias already exists";
        }
 
-       if(alias.equals("")) {
-           return VALIDATOR_STATUS_ALIAS_EMPTY;
+       if(alias.trim().equals("")) {
+           return "Alias cannot be empty";
        }
 
        if(alias.contains(KeyChainFileIO.DELIMITER)) {
-           return VALIDATOR_STATUS_ALIAS_INVALID_CHARACTER;
+           return "Invalid character \"" + KeyChainFileIO.DELIMITER + "\".";
        }
 
-       return 1000;
+       return VALID;
     }
 
     /**
@@ -37,16 +33,11 @@ public class Validator {
      * @param address The ssh address in the format of ssh user@ip/domain
      * @return int
      */
-    public static int isAddressValid(String address) {
-        if(!address.matches("(ssh\\s[A-Za-z]*@.*)")) {
-            return VALIDATOR_STATUS_ADDRESS_INVALID;
+    public static String isAddressValid(String address) {
+        if(!address.matches("(ssh\\s[A-Za-z0-9]*@.*)")) {
+            return "Invalid ssh address.";
         }
 
-        return 1000;
+        return VALID;
     }
-
-    public static boolean isAddressValid(String address, String addr) {
-        return !address.matches("(ssh\\s[A-Za-z]*@.*)");
-    }
-
 }

@@ -11,14 +11,12 @@ import keychain.Models.Button;
 import keychain.Models.KeyChain;
 import keychain.Models.TextField;
 import keychain.Views.DefaultView;
-import keychain.Views.Errors.Errors;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class DefaultController extends AbstractController {
 
@@ -115,7 +113,17 @@ public class DefaultController extends AbstractController {
         String alias = headerAliasTextFieldBtn.getText();
         String address = headerAddressTextFieldBtn.getText();
 
-        if(!isInputValid(headerAliasTextFieldBtn, headerAddressTextFieldBtn )) {
+        String errorMessageAlias = Validator.isAliasValid(alias, keyChain);
+
+        if(!errorMessageAlias.equals(Validator.VALID)) {
+            view.displayWarning(errorMessageAlias);
+            return;
+        }
+
+        String errorMessageAddress = Validator.isAddressValid(address);
+
+        if(!errorMessageAddress.equals(Validator.VALID)) {
+            view.displayWarning(errorMessageAddress);
             return;
         }
 
@@ -131,26 +139,4 @@ public class DefaultController extends AbstractController {
         // Re-add listeners
         addButtonListeners();
     }
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean isInputValid(JTextField aliasText, JTextField addressText) {
-        String alias = aliasText.getText();
-        String address = addressText.getText();
-
-        int aliasValidatorCode = Validator.isAliasValid(alias, getKeyChain());
-        int addressValidatorCode = Validator.isAddressValid(address);
-
-        if (Errors.errors.get(aliasValidatorCode) != null) {
-            view.displayWarning(Errors.getErrorByCode(aliasValidatorCode));
-            return false;
-        }
-
-        if (Errors.errors.get(addressValidatorCode) != null) {
-            view.displayWarning(Errors.getErrorByCode(addressValidatorCode));
-            return false;
-        }
-
-        return true;
-    }
-
 }
