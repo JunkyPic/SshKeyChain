@@ -122,10 +122,6 @@ public class DefaultView implements IView{
             addressTextField.setColumns(20);
             textField.put(TextField.TEXTFIELD_ADDRESS_PREFIX + entry.getKey(), addressTextField);
 
-//            JButton editButton = new JButton("Edit");
-//            editButton.setName(Button.BUTTON_EDIT_PREFIX + entry.getKey());
-//            button.put(Button.BUTTON_EDIT_PREFIX + entry.getKey(), editButton);
-
             JButton deleteButton = new JButton("Delete");
             deleteButton.setName(Button.BUTTON_DELETE_PREFIX + entry.getKey());
             button.put(Button.BUTTON_DELETE_PREFIX + entry.getKey(), deleteButton);
@@ -140,7 +136,6 @@ public class DefaultView implements IView{
             part.add(addressLabel);
             part.add(addressTextField);
 
-//            part.add(editButton);
             part.add(deleteButton);
             part.add(connectButton);
 
@@ -154,23 +149,20 @@ public class DefaultView implements IView{
         mainFrame.setVisible(true);
     }
 
-    public void buildFooter(Button button, TextField textField, KeyChain keyChain) {
+    public void buildFooter(TextField textField, KeyChain keyChain) {
         if(!keyChain.getKeychain().isEmpty()) {
             JPanel footerPanel = new JPanel();
             footerPanel.setLayout(new FlowLayout());
 
+            JLabel searchLabel = new JLabel("Search");
             JTextField searchTextField = new JTextField();
             searchTextField.setColumns(30);
             searchTextField.setName(TextField.TEXTFIELD_SEARCH_PREFIX);
 
-            JButton searchButton = new JButton("Search");
-            searchButton.setName(Button.BUTTON_SEARCH + "button");
-            button.put(Button.BUTTON_SEARCH + "button", searchButton);
-
             textField.put(TextField.TEXTFIELD_SEARCH_PREFIX, searchTextField);
 
+            footerPanel.add(searchLabel);
             footerPanel.add(searchTextField);
-            footerPanel.add(searchButton);
 
             mainFrame.add(footerPanel);
             mainFrame.setVisible(true);

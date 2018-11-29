@@ -24,9 +24,6 @@ public class ButtonListener extends AbstractButton {
 
         if (btnName.equals(Button.BUTTON_ADD)) {
             defaultController.addButtonClick();
-        }else if (btnName.equals(Button.BUTTON_SEARCH)) {
-            // TODO Implement this
-            // Skip for now
         } else {
             // Here it's always going to be one of the Delete or Connect
             // Each case will be handled separately

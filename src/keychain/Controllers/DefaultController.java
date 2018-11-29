@@ -6,6 +6,7 @@ import keychain.Config.Config;
 import keychain.FileIO.KeyChainFileIO;
 import keychain.Helpers.Validator;
 import keychain.Listeners.ButtonListener;
+import keychain.Listeners.TextFieldListener;
 import keychain.Models.Button;
 import keychain.Models.KeyChain;
 import keychain.Models.TextField;
@@ -16,9 +17,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.TreeMap;
 
 public class DefaultController extends AbstractController {
 
@@ -35,12 +35,25 @@ public class DefaultController extends AbstractController {
     public void run() {
         view.buildHeader(buttonModel, textFieldModel);
         view.buildBody(buttonModel, textFieldModel, keyChain);
-        view.buildFooter(buttonModel, textFieldModel, keyChain);
+        view.buildFooter(textFieldModel, keyChain);
 
-        addListeners();
+        addButtonListeners();
+        addSearchListener();
     }
 
-    private void addListeners() {
+    private void addSearchListener() {
+        if (!textFieldModel.getTextFields().isEmpty()) {
+            for (Map.Entry<String, JTextField> entry : textFieldModel.getTextFields().entrySet()) {
+                if(!entry.getKey().contains(TextField.TEXTFIELD_SEARCH_PREFIX)) {
+                    continue;
+                }
+
+                entry.getValue().addActionListener(new TextFieldListener(this));
+            }
+        }
+    }
+
+    public void addButtonListeners() {
         if (!buttonModel.getButtons().isEmpty()) {
             for (Map.Entry<String, JButton> entry : buttonModel.getButtons().entrySet()) {
                 entry.getValue().addActionListener(new ButtonListener(this));
@@ -91,7 +104,7 @@ public class DefaultController extends AbstractController {
             view.redraw(buttonModel, textFieldModel, keyChain);
 
             // Re-add listeners
-            addListeners();
+            addButtonListeners();
         }
     }
 
@@ -116,7 +129,7 @@ public class DefaultController extends AbstractController {
         view.redraw(buttonModel, textFieldModel, keyChain);
 
         // Re-add listeners
-        addListeners();
+        addButtonListeners();
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
