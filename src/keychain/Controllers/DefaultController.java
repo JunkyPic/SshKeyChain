@@ -1,7 +1,6 @@
 package keychain.Controllers;
 
 import keychain.Command.MacCommand;
-import keychain.Command.OS;
 import keychain.Config.Config;
 import keychain.FileIO.KeyChainFileIO;
 import keychain.Helpers.Validator;
@@ -70,7 +69,7 @@ public class DefaultController extends AbstractController {
 
         if(config.getConfig().get("OPEN_TERMINAL_ON_ADDRESS_COPY").equals("true")) {
             // open a new terminal
-            String os = OS.getOS();
+            String os = System.getProperty("os.name");
 
             if(os.toLowerCase().contains("mac")) {
                 MacCommand macCommand = new MacCommand();
