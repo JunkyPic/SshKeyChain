@@ -1,6 +1,0 @@
-test->ssh test@test
-testa->ssh test@test
-testa2->ssh test@test
-testa3->ssh test@test
-testa4->ssh test@test
-testa5->ssh test@test
