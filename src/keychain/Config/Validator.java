@@ -9,7 +9,7 @@ public class Validator {
     /**
      * Must have values in the config
      */
-    private ArrayList<String> arrayList = new ArrayList<>() {{
+    private ArrayList<String> arrayList = new ArrayList<String>() {{
         add("KEYCHAIN_FILE");
         add("OPEN_TERMINAL_ON_ADDRESS_COPY");
     }};

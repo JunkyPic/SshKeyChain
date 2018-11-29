@@ -1,6 +1,7 @@
 package keychain.Controllers;
 
 import keychain.Command.MacCommand;
+import keychain.Command.WindowsCommand;
 import keychain.Config.Config;
 import keychain.FileIO.KeyChainFileIO;
 import keychain.Helpers.Validator;
@@ -74,8 +75,9 @@ public class DefaultController extends AbstractController {
             if(os.toLowerCase().contains("mac")) {
                 MacCommand macCommand = new MacCommand();
                 macCommand.openTerminal();
-            } else {
-                view.displayWarning("Unknown OS, only MAC OS works for now.");
+            } else if(os.toLowerCase().contains("windows")){
+                WindowsCommand windowsCommand = new WindowsCommand();
+                windowsCommand.openTerminal();
             }
         }
     }
