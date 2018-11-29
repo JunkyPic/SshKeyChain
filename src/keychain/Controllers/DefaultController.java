@@ -11,9 +11,9 @@ import keychain.Views.DefaultView;
 import keychain.Views.Errors.Errors;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
-
-import static keychain.Models.Button.BUTTON_EDIT_PREFIX;
 
 public class DefaultController extends AbstractController {
 
@@ -43,58 +43,19 @@ public class DefaultController extends AbstractController {
         }
     }
 
-    public void delegateAction(JButton button) {
+    public void deleteButtonClick(JButton button) {
         String btnName = button.getName();
+        // Get the alias
+        String alias = btnName.replace(Button.BUTTON_DELETE_PREFIX, "");
 
-        if (btnName.equals(Button.BUTTON_ADD)) {
-            addButtonClick();
-        }else if (btnName.equals(Button.BUTTON_SEARCH)) {
-            // TODO Implement this
-            // Skip for now
-        } else {
-            // Here it's always going to be one of the Edit, Delete, or Connect
-            // Each case will be handled separately
-            // Don't match the button exactly since there's no point, we can do that later on
-            if(btnName.contains(BUTTON_EDIT_PREFIX)) {
-                editButtonClick(btnName);
-                return;
-            }
-        }
-    }
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null,
+                "Are you sure you want to delete the address?" + System.lineSeparator() + "This action cannot be undone.",
+                "Warning",
+                dialogButton);
 
-    private void editButtonClick(String btnName) {
-        String hashMapKeyName = btnName.replace(Button.BUTTON_EDIT_PREFIX, "");
-
-        JButton button = new JButton();
-        JTextField aliasTextField = new JTextField();
-        JTextField addressTextField = new JTextField();
-
-        if(null != buttonModel.get(Button.BUTTON_EDIT_PREFIX + hashMapKeyName)) {
-            button = buttonModel.get(Button.BUTTON_EDIT_PREFIX+ hashMapKeyName);
-        }
-
-        if(null != textFieldModel.get(TextField.TEXTFIELD_ADDRESS_PREFIX + hashMapKeyName)) {
-            addressTextField = textFieldModel.get(TextField.TEXTFIELD_ADDRESS_PREFIX + hashMapKeyName);
-        }
-
-        if(null != textFieldModel.get(TextField.TEXTFIELD_ALIAS_PREFIX + hashMapKeyName)) {
-            aliasTextField = textFieldModel.get(TextField.TEXTFIELD_ALIAS_PREFIX + hashMapKeyName);
-            // Remove the old entry in the hashmap
-            keyChain.remove(aliasTextField.getText());
-        }
-
-        // If it's editable, we can assume a new value was introduced
-        // Even if it wasn't it's easier to remove the old value and add the new one
-        if(aliasTextField.isEditable() && addressTextField.isEditable()) {
-            if(!isInputValid(aliasTextField, addressTextField)) {
-                return;
-            }
-
-            System.out.println(aliasTextField.getText());
-            System.out.println(keyChain.getKeychain().entrySet());
-
-            // Add the alias and address to the keychain
-            keyChain.put(aliasTextField.getText(), addressTextField.getText());
+        if(dialogResult == JOptionPane.YES_OPTION){
+            keyChain.remove(alias);
 
             // write the keychain to the keychain file
             KeyChainFileIO.write(keyChain, config);
@@ -104,16 +65,10 @@ public class DefaultController extends AbstractController {
 
             // Re-add listeners
             addListeners();
-
-            return;
         }
-
-        view.toggleTextFieldEditability(aliasTextField);
-        view.toggleTextFieldEditability(addressTextField);
-        view.toggleButtonLabel(button);
     }
 
-    private void addButtonClick() {
+    public void addButtonClick() {
         JTextField headerAliasTextFieldBtn = textFieldModel.get(TextField.TEXTFIELD_ALIAS_PREFIX + "header_textfield");
         JTextField headerAddressTextFieldBtn = textFieldModel.get(TextField.TEXTFIELD_ADDRESS_PREFIX + "header_address");
 

@@ -1,9 +1,12 @@
 package keychain.Listeners;
 
 import keychain.Controllers.DefaultController;
+import keychain.Models.Button;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+
+import static keychain.Models.Button.BUTTON_DELETE_PREFIX;
 
 public class ButtonListener extends AbstractButton {
     private DefaultController defaultController;
@@ -15,10 +18,22 @@ public class ButtonListener extends AbstractButton {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton btn = (JButton)e.getSource();
-        JButton hasMapButtonPointer = defaultController.getButtonModel().getButtons().get(btn.getName());
 
-        if(null != hasMapButtonPointer) {
-            defaultController.delegateAction(hasMapButtonPointer);
+        String btnName = btn.getName();
+
+        if (btnName.equals(Button.BUTTON_ADD)) {
+            defaultController.addButtonClick();
+        }else if (btnName.equals(Button.BUTTON_SEARCH)) {
+            // TODO Implement this
+            // Skip for now
+        } else {
+            // Here it's always going to be one of the Edit, Delete, or Connect
+            // Each case will be handled separately
+            // Don't match the button exactly since there's no point, we can do that later on
+            if(btnName.contains(BUTTON_DELETE_PREFIX)) {
+                defaultController.deleteButtonClick(btn);
+                return;
+            }
         }
     }
 }

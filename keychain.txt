@@ -1,2 +1,0 @@
-a->ssh e@t
-ab->ssh t@a

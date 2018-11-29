@@ -3,10 +3,7 @@ package keychain.FileIO;
 import keychain.Config.Config;
 import keychain.Models.KeyChain;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.TreeMap;
@@ -44,6 +41,6 @@ public class KeyChainFileIO extends FileIO {
         }
 
         // Trim last System.lineSeparator() or it will keep appending new lines like there's no tomorrow
-        FileIO.write(sr.toString().trim(), config.getConfig().get("KEYCHAIN_FILE"));
+        FileIO.write(sr.toString(), config.getConfig().get("KEYCHAIN_FILE"));
     }
 }

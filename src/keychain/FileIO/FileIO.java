@@ -5,24 +5,27 @@ import java.io.*;
 public class FileIO{
     public static void write(String toWrite, String fileName) {
         File f = new File(fileName);
-        FileWriter fw;
 
         if (f.exists() && !f.isDirectory()) {
-            try {
-                fw = new FileWriter(fileName);
-                fw.write(toWrite + System.lineSeparator());
-                fw.close();
-            } catch (IOException ioe) {
+            try{
+                FileOutputStream out = new FileOutputStream(fileName);
+
+                out.write(toWrite.trim().getBytes());
+
+                out.close();
+            }catch (Exception e) {
                 //
             }
         } else {
             try {
                 f.createNewFile();
-                try {
-                    fw = new FileWriter(fileName);
-                    fw.write(toWrite + System.lineSeparator());
-                    fw.close();
-                } catch (IOException ioe) {
+                try{
+                    FileOutputStream out = new FileOutputStream(fileName);
+
+                    out.write(toWrite.trim().getBytes());
+
+                    out.close();
+                }catch (Exception e) {
                     //
                 }
             } catch (IOException e) {

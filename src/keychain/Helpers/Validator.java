@@ -44,4 +44,9 @@ public class Validator {
 
         return 1000;
     }
+
+    public static boolean isAddressValid(String address, String addr) {
+        return !address.matches("(ssh\\s[A-Za-z]*@.*)");
+    }
+
 }

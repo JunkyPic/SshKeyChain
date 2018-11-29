@@ -16,6 +16,10 @@ public class DefaultView implements IView{
     private JPanel bodyPanelPart;
     private JScrollPane bodyPanelScrollable;
 
+    public JPanel getBodyPanelPart() {
+        return bodyPanelPart;
+    }
+
     public DefaultView() {
         mainFrame = new JFrame("SSH KEYCHAIN");
         mainFrame.setSize(1000, 600);
@@ -118,9 +122,9 @@ public class DefaultView implements IView{
             addressTextField.setColumns(20);
             textField.put(TextField.TEXTFIELD_ADDRESS_PREFIX + entry.getKey(), addressTextField);
 
-            JButton editButton = new JButton("Edit");
-            editButton.setName(Button.BUTTON_EDIT_PREFIX + entry.getKey());
-            button.put(Button.BUTTON_EDIT_PREFIX + entry.getKey(), editButton);
+//            JButton editButton = new JButton("Edit");
+//            editButton.setName(Button.BUTTON_EDIT_PREFIX + entry.getKey());
+//            button.put(Button.BUTTON_EDIT_PREFIX + entry.getKey(), editButton);
 
             JButton deleteButton = new JButton("Delete");
             deleteButton.setName(Button.BUTTON_DELETE_PREFIX + entry.getKey());
@@ -136,7 +140,7 @@ public class DefaultView implements IView{
             part.add(addressLabel);
             part.add(addressTextField);
 
-            part.add(editButton);
+//            part.add(editButton);
             part.add(deleteButton);
             part.add(connectButton);
 
@@ -177,11 +181,11 @@ public class DefaultView implements IView{
         JOptionPane.showMessageDialog(null, warning);
     }
 
-    public void toggleTextFieldEditability(JTextField button) {
-        if(!button.isEditable()) {
-            button.setEditable(true);
+    public void toggleTextFieldEditability(JTextField textField) {
+        if(!textField.isEditable()) {
+            textField.setEditable(true);
         } else {
-            button.setEditable(false);
+            textField.setEditable(false);
         }
     }
 
