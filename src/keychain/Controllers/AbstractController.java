@@ -27,43 +27,19 @@ abstract public class AbstractController {
         this.keyChain = keyChain;
     }
 
-    public Config getConfig() {
-        return config;
-    }
-
-    public void setConfig(Config config) {
-        this.config = config;
-    }
-
     public KeyChain getKeyChain() {
         return keyChain;
-    }
-
-    public void setKeyChain(KeyChain keyChain) {
-        this.keyChain = keyChain;
     }
 
     public DefaultView getView() {
         return view;
     }
 
-    public void setView(DefaultView view) {
-        this.view = view;
-    }
-
     public Button getButtonModel() {
         return buttonModel;
     }
 
-    public void setButtonModel(Button buttonModel) {
-        this.buttonModel = buttonModel;
-    }
-
     public TextField getTextFieldModel() {
         return textFieldModel;
-    }
-
-    public void setTextFieldModel(TextField textFieldModel) {
-        this.textFieldModel = textFieldModel;
     }
 }

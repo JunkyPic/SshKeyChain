@@ -27,7 +27,6 @@ public class ButtonListener extends AbstractButton {
         } else {
             // Here it's always going to be one of the Delete or Connect
             // Each case will be handled separately
-            // Don't match the button exactly since there's no point, we can do that later on
             if(btnName.contains(BUTTON_DELETE_PREFIX)) {
                 defaultController.deleteButtonClick(btn);
                 return;

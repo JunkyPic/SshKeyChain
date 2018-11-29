@@ -16,10 +16,6 @@ public class DefaultView implements IView{
     private JPanel bodyPanelPart;
     private JScrollPane bodyPanelScrollable;
 
-    public JPanel getBodyPanelPart() {
-        return bodyPanelPart;
-    }
-
     public DefaultView() {
         mainFrame = new JFrame("SSH KEYCHAIN");
         mainFrame.setSize(1000, 600);
@@ -73,8 +69,7 @@ public class DefaultView implements IView{
         // Dynamically create whatever elements are in there
         // Only the alias and the value are present
         TreeMap<String, String> keychain = keyChain.getKeychain();
-        JScrollPane bodyPanelScrollable = new JScrollPane();
-        this.bodyPanelScrollable = bodyPanelScrollable;
+        this.bodyPanelScrollable = new JScrollPane();
 
         this.bodyPanelScrollable.setLayout(new ScrollPaneLayout());
         mainFrame.add(this.bodyPanelScrollable);
@@ -171,21 +166,5 @@ public class DefaultView implements IView{
 
     public void displayWarning(String warning) {
         JOptionPane.showMessageDialog(null, warning);
-    }
-
-    public void toggleTextFieldEditability(JTextField textField) {
-        if(!textField.isEditable()) {
-            textField.setEditable(true);
-        } else {
-            textField.setEditable(false);
-        }
-    }
-
-    public void toggleButtonLabel(JButton button){
-        if(button.getText().equals("Edit")) {
-            button.setText("Save");
-        } else {
-            button.setText("Edit");
-        }
     }
 }

@@ -31,7 +31,7 @@ public class Validator {
      * at least one word and followed by any number of characters
      *
      * @param address The ssh address in the format of ssh user@ip/domain
-     * @return int
+     * @return String
      */
     public static String isAddressValid(String address) {
         if(!address.matches("(ssh\\s[A-Za-z0-9]*@.*)")) {
