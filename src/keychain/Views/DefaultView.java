@@ -130,7 +130,7 @@ public class DefaultView implements IView{
             deleteButton.setName(Button.BUTTON_DELETE_PREFIX + entry.getKey());
             button.put(Button.BUTTON_DELETE_PREFIX + entry.getKey(), deleteButton);
 
-            JButton connectButton = new JButton("Connect");
+            JButton connectButton = new JButton("Copy to clipboard");
             connectButton.setName(Button.BUTTON_CONNECT_PREFIX + entry.getKey());
             button.put(Button.BUTTON_CONNECT_PREFIX + entry.getKey(), connectButton);
 

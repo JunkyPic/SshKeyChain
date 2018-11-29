@@ -9,8 +9,9 @@ public class Validator {
     /**
      * Must have values in the config
      */
-    private ArrayList<String> arrayList = new ArrayList<String>() {{
+    private ArrayList<String> arrayList = new ArrayList<>() {{
         add("KEYCHAIN_FILE");
+        add("OPEN_TERMINAL_ON_ADDRESS_COPY");
     }};
 
     public void validate(Config config) throws InvalidConfigException{

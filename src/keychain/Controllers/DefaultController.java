@@ -1,5 +1,7 @@
 package keychain.Controllers;
 
+import keychain.Command.MacCommand;
+import keychain.Command.OS;
 import keychain.Config.Config;
 import keychain.FileIO.KeyChainFileIO;
 import keychain.Helpers.Validator;
@@ -12,8 +14,11 @@ import keychain.Views.Errors.Errors;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DefaultController extends AbstractController {
 
@@ -44,7 +49,25 @@ public class DefaultController extends AbstractController {
     }
 
     public void connectButtonClick(JButton button) {
+        String btnName = button.getName();
+        // Get the alias
+        String alias = btnName.replace(Button.BUTTON_CONNECT_PREFIX, "");
 
+        StringSelection selection = new StringSelection(keyChain.get(alias));
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+
+        if(config.getConfig().get("OPEN_TERMINAL_ON_ADDRESS_COPY").equals("true")) {
+            // open a new terminal
+            String os = OS.getOS();
+
+            if(os.toLowerCase().contains("mac")) {
+                MacCommand macCommand = new MacCommand();
+                macCommand.openTerminal();
+            } else {
+                view.displayWarning("Unknown OS, only MAC OS works for now.");
+            }
+        }
     }
 
     public void deleteButtonClick(JButton button) {
