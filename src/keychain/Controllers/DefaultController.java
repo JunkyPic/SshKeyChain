@@ -43,6 +43,10 @@ public class DefaultController extends AbstractController {
         }
     }
 
+    public void connectButtonClick(JButton button) {
+
+    }
+
     public void deleteButtonClick(JButton button) {
         String btnName = button.getName();
         // Get the alias
