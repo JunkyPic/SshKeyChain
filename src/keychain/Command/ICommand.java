@@ -11,4 +11,5 @@ public interface ICommand {
      * TODO Figure out how to output to open terminal(if possible)
      */
     void openTerminal();
+    void exec(String command);
 }

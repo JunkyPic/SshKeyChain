@@ -11,7 +11,7 @@ public class Validator {
      */
     private ArrayList<String> arrayList = new ArrayList<String>() {{
         add("KEYCHAIN_FILE");
-        add("OPEN_TERMINAL_ON_ADDRESS_COPY");
+        add("OPEN_TERMINAL_ON_CONNECT_BUTTON_PRESS");
     }};
 
     public void validate(Config config) throws InvalidConfigException{

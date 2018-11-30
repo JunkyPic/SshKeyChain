@@ -64,21 +64,26 @@ public class DefaultController extends AbstractController {
         // Get the alias
         String alias = btnName.replace(Button.BUTTON_CONNECT_PREFIX, "");
 
-        StringSelection selection = new StringSelection(keyChain.get(alias));
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(selection, selection);
-
-        if(config.getConfig().get("OPEN_TERMINAL_ON_ADDRESS_COPY").equals("true")) {
-            // open a new terminal
+        // Open a new terminal via a bash script and execute whatever command is given
+        if(config.getConfig().get("OPEN_TERMINAL_ON_CONNECT_BUTTON_PRESS").equals("true")) {
             String os = System.getProperty("os.name");
 
             if(os.toLowerCase().contains("mac")) {
                 MacCommand macCommand = new MacCommand();
-                macCommand.openTerminal();
+                macCommand.exec(keyChain.get(alias));
             } else if(os.toLowerCase().contains("windows")){
+                //just copy the address
+                StringSelection selection = new StringSelection(keyChain.get(alias));
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(selection, selection);
                 WindowsCommand windowsCommand = new WindowsCommand();
                 windowsCommand.openTerminal();
             }
+        } else {
+            //just copy the address
+            StringSelection selection = new StringSelection(keyChain.get(alias));
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(selection, selection);
         }
     }
 

@@ -12,4 +12,8 @@ public class WindowsCommand implements ICommand{
             JOptionPane.showMessageDialog(null, "Unable to open command prompt");
         }
     }
+
+    public void exec(String command){
+        //
+    }
 }
