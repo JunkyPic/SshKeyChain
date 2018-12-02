@@ -69,22 +69,22 @@ public class DefaultView implements IView{
         // Dynamically create whatever elements are in there
         // Only the alias and the value are present
         TreeMap<String, String> keychain = keyChain.getKeychain();
-        this.bodyPanelScrollable = new JScrollPane();
+        bodyPanelScrollable = new JScrollPane();
 
-        this.bodyPanelScrollable.setLayout(new ScrollPaneLayout());
-        mainFrame.add(this.bodyPanelScrollable);
+        bodyPanelScrollable.setLayout(new ScrollPaneLayout());
+        mainFrame.add(bodyPanelScrollable);
         JPanel bodyPanelPart = new JPanel();
         bodyPanelPart.setLayout(new GridLayout(keychain.size(), 1));
         this.bodyPanelPart = bodyPanelPart;
 
         if(!keychain.isEmpty()) {
-            this.bodyPanelScrollable.setVisible(true);
+            bodyPanelScrollable.setVisible(true);
             redraw(button, textField, keyChain);
         } else {
-            this.bodyPanelScrollable.setVisible(false);
+            bodyPanelScrollable.setVisible(false);
         }
 
-        this.bodyPanelScrollable.setViewportView(bodyPanelPart);
+        bodyPanelScrollable.setViewportView(bodyPanelPart);
         mainFrame.setVisible(true);
     }
 
@@ -121,17 +121,22 @@ public class DefaultView implements IView{
             deleteButton.setName(Button.BUTTON_DELETE_PREFIX + entry.getKey());
             button.put(Button.BUTTON_DELETE_PREFIX + entry.getKey(), deleteButton);
 
-            JButton connectButton = new JButton("Connect");
-            connectButton.setName(Button.BUTTON_CONNECT_PREFIX + entry.getKey());
-            button.put(Button.BUTTON_CONNECT_PREFIX + entry.getKey(), connectButton);
-
             part.add(aliasLabel);
             part.add(aliasTextField);
 
             part.add(addressLabel);
             part.add(addressTextField);
 
+            JButton copyButton = new JButton("Copy");
+            copyButton.setName(Button.BUTTON_COPY_PREFIX + entry.getKey());
+            button.put(Button.BUTTON_COPY_PREFIX + entry.getKey(), copyButton);
+
+            JButton connectButton = new JButton("Connect");
+            connectButton.setName(Button.BUTTON_CONNECT_PREFIX + entry.getKey());
+            button.put(Button.BUTTON_CONNECT_PREFIX + entry.getKey(), connectButton);
+
             part.add(deleteButton);
+            part.add(copyButton);
             part.add(connectButton);
 
             part.setVisible(true);

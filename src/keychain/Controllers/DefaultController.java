@@ -72,19 +72,28 @@ public class DefaultController extends AbstractController {
                 MacCommand macCommand = new MacCommand();
                 macCommand.exec(keyChain.get(alias));
             } else if(os.toLowerCase().contains("windows")){
-                //just copy the address
-                StringSelection selection = new StringSelection(keyChain.get(alias));
-                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                clipboard.setContents(selection, selection);
+                copyToClipboard(keyChain.get(alias));
+
                 WindowsCommand windowsCommand = new WindowsCommand();
                 windowsCommand.openTerminal();
             }
         } else {
-            //just copy the address
-            StringSelection selection = new StringSelection(keyChain.get(alias));
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(selection, selection);
+            copyToClipboard(keyChain.get(alias));
         }
+    }
+
+    private void copyToClipboard(String toCopy) {
+        StringSelection selection = new StringSelection(toCopy);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+    }
+
+    public void copyButtonClick(JButton button) {
+        String btnName = button.getName();
+        // Get the alias
+        String alias = btnName.replace(Button.BUTTON_COPY_PREFIX, "");
+
+        copyToClipboard(keyChain.get(alias));
     }
 
     public void deleteButtonClick(JButton button) {

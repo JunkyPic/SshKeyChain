@@ -6,8 +6,7 @@ import keychain.Models.Button;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-import static keychain.Models.Button.BUTTON_CONNECT_PREFIX;
-import static keychain.Models.Button.BUTTON_DELETE_PREFIX;
+import static keychain.Models.Button.*;
 
 public class ButtonListener extends AbstractButton {
     private DefaultController defaultController;
@@ -29,6 +28,11 @@ public class ButtonListener extends AbstractButton {
             // Each case will be handled separately
             if(btnName.contains(BUTTON_DELETE_PREFIX)) {
                 defaultController.deleteButtonClick(btn);
+                return;
+            }
+
+            if(btnName.contains(BUTTON_COPY_PREFIX)) {
+                defaultController.copyButtonClick(btn);
                 return;
             }
 
